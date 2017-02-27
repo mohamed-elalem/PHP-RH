@@ -146,9 +146,9 @@
 			function deleteThisGroup(group) {
 				$.ajax( {
 					type: 'POST',
-					url: '#',
+					url: 'delete.php',
 					data: {
-						'group': group
+						'group_name': group
 					},
 					success: function(msg) {
 						$("#group-" + group).remove();
