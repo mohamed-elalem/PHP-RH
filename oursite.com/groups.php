@@ -76,7 +76,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-3">
-						<ul class="nav nav-tabs nav-stacked" role="tab-list">
+						<ul class="nav navbar-inverse nav-tabs nav-stacked" role="tab-list">
 							<?php
 								for($i = 0; $i < $group_names_count; $i++) {
 									echo "<li role='presentation'><a id='group-".$group_names[$i]."' href='#".$group_names[$i]."' onclick='addDeleteGroupOption(id)' aria-controls='profile' role='tab' data-toggle='tab'>".$group_names[$i]."</a></li>";

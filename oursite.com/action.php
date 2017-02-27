@@ -1,8 +1,5 @@
 <?php 
-	if($_SERVER['REQUEST_METHOD'] != 'POST') {
-		header("HTTP/1.0 403 Forbidden");
-		echo "403 Access Forbidden";
-	}
+	include('check_request.php');
 	if(isset($_POST['add'])) {
 		$group_user = explode('-', $_POST['info']);
 		exec("sudo usermod -a -G ".$group_user[0]." ".$group_user[1]);
