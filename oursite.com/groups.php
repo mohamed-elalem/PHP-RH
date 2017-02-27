@@ -52,6 +52,7 @@
 		<script src="node_modules/tether/dist/js/tether.min.js"></script>
 		<script src="node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="node_modules/jquery/external/jquery.redirect.js"></script>
 		<style>
 			.traverse {
 			  	background-color: Transparent;
@@ -79,7 +80,7 @@
 						<ul class="nav navbar-inverse nav-tabs nav-stacked" role="tab-list">
 							<?php
 								for($i = 0; $i < $group_names_count; $i++) {
-									echo "<li role='presentation'><a id='group-".$group_names[$i]."' href='#".$group_names[$i]."' onclick='addDeleteGroupOption(id)' aria-controls='profile' role='tab' data-toggle='tab'>".$group_names[$i]."</a></li>";
+									echo "<li role='presentation'><a id='group-".$group_names[$i]."' href='#".$group_names[$i]."' onclick='addEditDeleteGroupOption(id)' aria-controls='profile' role='tab' data-toggle='tab'>".$group_names[$i]."</a></li>";
 								}
 							?>
 						</ul>	
@@ -137,10 +138,10 @@
 				});
 			}
 			
-			function addDeleteGroupOption(id) {
+			function addEditDeleteGroupOption(id) {
 				var groupName = id.split("-")[1];
-				$(".delete-group-option").remove();
-				$("#" + id).append("<button class='delete-group-option traverse pull-right' onclick='deleteThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-minus text-danger'></span></button>");           
+				$(".group-option").remove();
+				$("#" + id).append("<div class='group-option btn-group pull-right'><button class='traverse' onclick='editThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-edit text-primary'></span></button><button class='traverse' onclick='deleteThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-minus text-danger'></span></button></div>");           
 			}
 			
 			function deleteThisGroup(group) {
@@ -155,6 +156,10 @@
 						$("#" + group).remove();
 					}
 				});
+			}
+
+			function editThisGroup(group) {
+				$.redirect('edit_group.php', {'group': group});
 			}
 		</script>
 	</body>
