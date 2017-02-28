@@ -59,7 +59,9 @@ $default_shell=$line[6];
 
 
 </table> <br>
-
+<form class="" action="deleteuser.php" method="post">
+		<button type="submit" name="delete_user" value="<?=$username?>">Delete User</button>
+</form>
 
 
 </div>
