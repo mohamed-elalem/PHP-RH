@@ -8,7 +8,7 @@ $gid=$line[3];
 $comment=$line[4];
 $home=$line[5];
 $default_shell=$line[6];
-//add back button 
+//add back button
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,19 +28,19 @@ $default_shell=$line[6];
 <table class="table">
 	<tr class="bg-info">
 		<td>username</td><td><?= $username ?></td>
-		
+
 	</tr>
 	<tr class="bg-danger">
 		<td>passwd</td><td><?= $passwd ?></td>
-		
+
 	</tr>
 	<tr class="bg-primary">
 		<td>uid</td><td><?= $uid ?></td>
-		
+
 	</tr>
 	<tr class="bg-warning">
 		<td>gid</td><td><?= $gid ?></td>
-		
+
 	</tr>
 	<tr class="bg-info">
 		<td>comment</td><td><?= $comment ?></td>
@@ -48,14 +48,18 @@ $default_shell=$line[6];
 	</tr>
 	<tr class="bg-success">
 		<td>home</td><td><?= $home ?></td>
-		
+
 	</tr>
 	<tr class="bg-success">
 		<td>default shell</td><td><?= $default_shell ?></td>
 	</tr>
-	
 
-</table>
+
+</table> <br>
+<form class="" action="deleteuser.php" method="post">
+		<button type="submit" name="delete_user" value="<?=$username?>">Delete User</button>
+</form>
+
 
 </div>
 </body>
