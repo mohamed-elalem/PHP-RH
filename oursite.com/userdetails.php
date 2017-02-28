@@ -59,9 +59,7 @@ $default_shell=$line[6];
 
 
 </table> <br>
-<form class="" action="deleteuser.php" method="post">
-		<button type="submit" name="delete_user" value="<?=$username?>">Delete User</button>
-</form>
+
 
 
 </div>
@@ -69,7 +67,7 @@ $default_shell=$line[6];
 <table class="table table-responsive table-bordered table-hover">
 	<tr>
 		<th>Secondary groups</th>
-		<?php 
+		<?php
 			foreach ($secondary_groups as $grp ) {
 				if($grp != $primary_group){
 				?>
@@ -77,7 +75,7 @@ $default_shell=$line[6];
 					<?= $grp ?>
 				</td>
 				<?php
-				} 
+				}
 			}
 		?>
 	</tr>
