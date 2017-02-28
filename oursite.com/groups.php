@@ -53,16 +53,7 @@
 		<script src="node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="node_modules/jquery/external/jquery.redirect.js"></script>
-		<style>
-			.traverse {
-			  	background-color: Transparent;
-				background-repeat:no-repeat;
-				border: none;
-				cursor:pointer;
-				overflow: hidden;
-				outline:none;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
 		<div class="jumbotron">
@@ -83,7 +74,10 @@
 									echo "<li role='presentation'><a id='group-".$group_names[$i]."' href='#".$group_names[$i]."' onclick='addEditDeleteGroupOption(id)' aria-controls='profile' role='tab' data-toggle='tab'>".$group_names[$i]."</a></li>";
 								}
 							?>
-						</ul>	
+						</ul>
+						<a class='btn btn-lg btn-primary btn-block' href='create_group.php' style='margin-top: 5px'>
+							<span class='glyphicon glyphicon-plus'></span> Create new group
+						</a>
 					</div>
 					<div class="col-md-9">
 						<div class="tab-content">
