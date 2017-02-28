@@ -5,6 +5,9 @@ $line=explode(":", exec('grep '.$username.' /etc/passwd'));
 $passwd=$line[1];
 $uid=$line[2];
 $gid=$line[3];
+$primary_group=exec('getent group '.$gid.' | cut -f1 -d:');
+$secondary_groups=explode(" ", trim(shell_exec('groups '.$username.' | cut -f2 -d:')));
+//print_r( $secondary_groups);
 $comment=$line[4];
 $home=$line[5];
 $default_shell=$line[6];
@@ -23,35 +26,35 @@ $default_shell=$line[6];
 </head>
 </head>
 <body>
-<div class="table-responsive">
+<div >
 
-<table class="table">
+<table class="table table-responsive table-bordered table-hover">
 	<tr class="bg-info">
-		<td>username</td><td><?= $username ?></td>
+		<th>username</th><td><?= $username ?></td>
 
 	</tr>
 	<tr class="bg-danger">
-		<td>passwd</td><td><?= $passwd ?></td>
+		<th>password</th><td><?= $passwd ?></td>
 
 	</tr>
 	<tr class="bg-primary">
-		<td>uid</td><td><?= $uid ?></td>
+		<th>uid</th><td><?= $uid ?></td>
 
 	</tr>
 	<tr class="bg-warning">
-		<td>gid</td><td><?= $gid ?></td>
+		<th>group</th><td><?= $primary_group ?></td>
 
 	</tr>
 	<tr class="bg-info">
-		<td>comment</td><td><?= $comment ?></td>
+		<th>comment</th><td><?= $comment ?></td>
 
 	</tr>
 	<tr class="bg-success">
-		<td>home</td><td><?= $home ?></td>
+		<th>home</th><td><?= $home ?></td>
 
 	</tr>
 	<tr class="bg-success">
-		<td>default shell</td><td><?= $default_shell ?></td>
+		<th>default shell</th><td><?= $default_shell ?></td>
 	</tr>
 
 
@@ -61,6 +64,24 @@ $default_shell=$line[6];
 </form>
 
 
+</div>
+<div>
+<table class="table table-responsive table-bordered table-hover">
+	<tr>
+		<th>Secondary groups</th>
+		<?php 
+			foreach ($secondary_groups as $grp ) {
+				if($grp != $primary_group){
+				?>
+				<td>
+					<?= $grp ?>
+				</td>
+				<?php
+				} 
+			}
+		?>
+	</tr>
+</table>
 </div>
 </body>
 </html>
