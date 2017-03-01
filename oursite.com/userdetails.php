@@ -62,7 +62,7 @@ $default_shell=$_SESSION['default_shell']=$line[6];
 <form class="" action="deleteuser.php" method="post">
 		<button type="submit" name="delete_user" value="<?=$username?>">Delete User</button>
 </form>
-
+<a href="edit-user.php" class="btn btn-default" >Edit User</a>
 
 </div>
 <div>
