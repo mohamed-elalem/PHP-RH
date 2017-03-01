@@ -88,7 +88,7 @@
 									for($j = 0; $j < $all_users_count; $j++) {
 										$exist = isset($group_and_members[$group_names[$i]][$all_users[$j]]);										
 										//echo $exist." ".$group_names[$i]." ".$all_users[$j]." ".$group_and_members[]." ".$i." ".$j."<br>";
-										echo "<li role='presentation'><a href='#' id='".$group_names[$i]."-".$all_users[$j]."' onclick='".($exist == 1 ? "deleteFromGroup(id)" : "addToGroup(id)")."'>".$all_users[$j]."<span class='pull-right ".($exist == 1 ? "glyphicon glyphicon-minus text-danger" : "glyphicon glyphicon-plus text-primary")."'></span><li>";
+										echo "<li role='presentation'><a href='#' id='".$group_names[$i]."s3pudZsGN4GQc5iQC0FE".$all_users[$j]."' onclick='".($exist == 1 ? "deleteFromGroup(id)" : "addToGroup(id)")."'>".$all_users[$j]."<span class='pull-right ".($exist == 1 ? "glyphicon glyphicon-minus text-danger" : "glyphicon glyphicon-plus text-primary")."'></span><li>";
 									}
 									echo "</ul>";
 									echo "</div>";
@@ -101,6 +101,7 @@
 		</div>
 		<script>
 			function addToGroup(id) {
+				console.log(id);
 				$.ajax({
 					type: 'POST',
 					url: 'action.php',
