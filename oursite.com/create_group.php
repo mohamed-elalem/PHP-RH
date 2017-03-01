@@ -1,13 +1,14 @@
 <?php
 
-	session_start();
-	$group_name= $_POST['group_name'];
+  session_start();
+  $group_name= $_POST['group_name'];
   if(isset($_POST['create_group'])){
-	exec("sudo groupadd '$group_name'",$output,$ret);
-  if($ret!=1)
+  exec("sudo groupadd '$group_name'",$output,$ret);
+  if($ret==0)
   {
-    echo "error";
+    header('Location: groups.php');
   }
+  
 }
 
 ?>
