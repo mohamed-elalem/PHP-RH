@@ -6,17 +6,18 @@
   </head>
   <body>
     <?php
+    extract($_SESSION);
     $show_shell = explode(PHP_EOL, shell_exec('cat /etc/shells'));
     $shell_len = count($show_shell)-1;
     $show_group = explode(PHP_EOL, shell_exec('cat /etc/group|cut -d: -f1'));
     array_pop($show_group);
 
-    echo exec("sudo tail /etc/passwd")."<br>";
-    $user=exec("sudo tail -n+42 /etc/passwd|cut -f1 -d:");
+    // echo exec("sudo tail /etc/passwd")."<br>";
+    // $user=exec("sudo tail -n+42 /etc/passwd|cut -f1 -d:");
     $exec_string="";
     $success_str="";
     $str_prefix="sudo usermod ";
-    $str_suffix="$user";
+    $str_suffix=$username;
 
     if(isset($_POST['login'])){
       exec("sudo pkill -u ".$user);
@@ -24,8 +25,7 @@
       if (!empty($_POST['login'])) {
         $exec_string.="-l ".$_POST['login']." ";
       }
-      echo $exec_string."<br>";
-      $success_str.="Login-";
+      // $success_str.="Login-";
       if (!empty($_POST['fname'])) {
         $fname = $_POST['fname'];
         if (!empty($_POST['lname'])) {
@@ -62,15 +62,19 @@
      ?>
     <form class="" action="index.php" method="post">
       <table width=70% align="center">
-      <tr><td width=25%>Login-Name:</td><td width=75%><input type="text" name="login"></td><tr>
-      <tr><td width=25%>UID</td><td width=75%><input type="text" name="uid"></td><tr>
-      <tr><td width=25%>First Name</td><td width=75%><input type="text" name="fname"></td><tr>
+      <tr><td width=25%>Login-Name:</td><td width=75%><input type="text" name="login">
+          <?= $username ?></td><tr>
+      <tr><td width=25%>UID</td><td width=75%><input type="text" name="uid">
+          <?= $uid ?></td><tr>
+      <tr><td width=25%>First Name</td><td width=75%><input type="text" name="fname">
+          <?= $comment ?></td><tr>
       <tr><td width=25%>Last Name</td><td width=75%><input type="text" name="lname"></td><tr>
       <tr><td width=25%>Shell</td><td width=75%>
         <select class="" name="shell">
           <?php
           for($i=1;$i<$shell_len;$i++){
             echo "<option>".$show_shell[$i]."</option>";
+            echo "<option"; if ($show_shell[$i]==$default_shell) {echo " selected";};echo ">".$show_shell[$i]."</option>";
           }
            ?>
         </select>
@@ -81,7 +85,7 @@
           <?php
           foreach ($show_group as $gname)
           {
-            echo "<option>".$gname."</option>";//check for currently active group
+            echo "<option"; if ($gname==$primary_group) {echo " selected";};echo ">".$gname."</option>";
           }
            ?>
         </select>
