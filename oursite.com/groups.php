@@ -6,6 +6,8 @@
 	unset($all_users[$all_users_count - 1]);
 	$all_users_count -= 1;
 	$group_and_members = array();
+
+	$admin = "delete_manager";
 	
 	for($i = 0; $i < $group_names_count; $i++) {
 		$group_names[$i] = trim($group_names[$i]);
@@ -56,6 +58,9 @@
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
+		<?php
+			include('header.php');
+		?>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Groups & Members</h1>
@@ -76,9 +81,11 @@
 								}
 							?>
 						</ul>
+						<?php if($admin == "poweruser" || $admin == "edit_manager") { ?>						
 						<a class='btn btn-lg btn-primary btn-block' href='create_group.php' style='margin-top: 5px'>
 							<span class='glyphicon glyphicon-plus'></span> Create new group
 						</a>
+						<?php } ?>
 					</div>
 					<div class="col-md-9">
 						<div class="tab-content">
@@ -89,7 +96,10 @@
 									for($j = 0; $j < $all_users_count; $j++) {
 										$exist = isset($group_and_members[$group_names[$i]][$all_users[$j]]);										
 										//echo $exist." ".$group_names[$i]." ".$all_users[$j]." ".$group_and_members[]." ".$i." ".$j."<br>";
-										echo "<li role='presentation'><a href='#' id='".$group_names[$i]."s3pudZsGN4GQc5iQC0FE".$all_users[$j]."' onclick='".($exist == 1 ? "deleteFromGroup(id)" : "addToGroup(id)")."'>".$all_users[$j]."<span class='pull-right ".($exist == 1 ? "glyphicon glyphicon-minus text-danger" : "glyphicon glyphicon-plus text-primary")."'></span><li>";
+										$group_membership_manage = ">".$all_users[$j];
+										if($admin == 'poweruser' || $admin == 'edit_manager')
+											$group_membership_manage = "id='".$group_names[$i]."s3pudZsGN4GQc5iQC0FE".$all_users[$j]."' onclick='".($exist == 1 ? "deleteFromGroup(id)" : "addToGroup(id)")."'>".$all_users[$j]."<span class='pull-right ".($exist == 1 ? "glyphicon glyphicon-minus text-danger" : "glyphicon glyphicon-plus text-primary")."'></span>";
+										echo "<li role='presentation'><a href='#'".$group_membership_manage."</a></li>";
 									}
 									echo "</ul>";
 									echo "</div>";
@@ -137,9 +147,11 @@
 			function addEditDeleteGroupOption(id) {
 				var groupName = id.split("-")[1];
 				$(".group-option").remove();
-				$("#" + id).append("<div class='group-option btn-group pull-right'><button class='traverse' onclick='editThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-edit text-primary'></span></button><button class='traverse' onclick='deleteThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-minus text-danger'></span></button></div>");           
+				editButton = "<?php if($admin == 'poweruser' || $admin == 'edit_manager') { ?><button class='traverse' onclick='editThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-edit text-primary'></span></button><?php } ?>";
+				deleteButton = "<?php if($admin == 'poweruser' || $admin == 'delete_manager') { ?></button><button class='traverse' onclick='deleteThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-minus text-danger'></span></button><?php } ?>";
+				$("#" + id).append("<div class='group-option btn-group pull-right'>" + editButton + deleteButton + "</div>");           
 			}
-			
+			 + 
 			function deleteThisGroup(group) {
 				$.ajax( {
 					type: 'POST',
