@@ -3,14 +3,14 @@ $username=$_POST['username'];
 $line=explode(":", exec('grep '.$username.' /etc/passwd'));
 //print_r($line);
 $passwd=$line[1];
-$uid=$line[2];
-$gid=$line[3];
-$primary_group=exec('getent group '.$gid.' | cut -f1 -d:');
-$secondary_groups=explode(" ", trim(shell_exec('groups '.$username.' | cut -f2 -d:')));
+$uid=$_SESSION['uid']=$line[2];
+$gid=$_SESSION['gid']=$line[3];
+$primary_group=$_SESSION['primary_group']=exec('getent group '.$gid.' | cut -f1 -d:');
+$secondary_groups=$_SESSION['secondary_groups']=explode(" ", trim(shell_exec('groups '.$username.' | cut -f2 -d:')));
 //print_r( $secondary_groups);
-$comment=$line[4];
-$home=$line[5];
-$default_shell=$line[6];
+$comment=$_SESSION['comment']=$line[4];
+$home=$_SESSION['home']=$line[5];
+$default_shell=$_SESSION['default_shell']=$line[6];
 //add back button
 ?>
 <!DOCTYPE html>
