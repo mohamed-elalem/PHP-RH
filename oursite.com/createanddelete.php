@@ -15,7 +15,6 @@ $ret_passwd = 0;
 
 if(isset($_POST['create'])){
         exec('sudo useradd -m -p '.$user_pass." -c '".$first_name." ".$last_name."' -s ".$shell." ".$user_name,$ret_useradd,$code);
-
 if($ret_useradd) {
         printf("Something wrong with useradd, code: %d\n", $ret_useradd);
         exit();
@@ -65,8 +64,8 @@ function check(){
   var password=document.getElementById("txtPassword");
   var conpasswd=document.getElementById("txtConfirmPassword");
     if(username.value=="" || firstname.value=="" || lastname.value==""||password.value==""||conpasswd.value==""){
-      alert ("Invalid input"); return false;
-      header('Location: createanddelete.php')
+      document.querySelector("#invalidinput").innerHTML = "Please fill all fields";
+	  return false;
     }else{
       return true;
     }
@@ -75,27 +74,26 @@ function check(){
          var password = document.getElementById("txtPassword").value;
          var confirmPassword = document.getElementById("txtConfirmPassword").value;
          if (password != confirmPassword) {
-             alert("Passwords do not match.");
-             return false;
+			document.querySelector("#mismatch").innerHTML = "Password mismatch please re-enter password";             
+			return false;
          }
          return true;
      }
  </script>
 </head>
-<body  onsubmit="Validate(); check(); validateForm();">
-  <div class="container">
+<body  onsubmit="return Validate() && check();">
   <div class="jumbotron">
-    <h1>Creating User</h1>
+    <h1>User creation</h1>
     <?php
       if($code != 1) {
         ?>
-        <h3 class='text-danger'>Error occured</h3>
-        <?php
+        <h3 class='text-danger'>Error occured please check <?php if($code != 0) { ?><a target='_blank' href="http://www.google.com/?q=exit+error+<?=$code?>+bash">Google search</a><?php } ?></h3>
+		<h3 class="text-danger" id='mismatch'></h3>		
+		<h3 class="text-danger" id='invalidinput'></h3>        
+		<?php
       }
     ?>
   </div>
-
-</div>
 
 
 <div class="container">
@@ -106,28 +104,28 @@ function check(){
   <h2>Welcome</h2>
   <form method="POST" action="createanddelete.php">
     <div class="form-group">
-      <label class="control-label" for="user_name">UserName:</label>
+      <label class="control-label" for="user_name">Username</label>
       <input type="text" class="form-control" id="user_name" name="user_name" placeholder="UserName">
     <div class="form-group">
-      <label class="control-label" for="user_name">First Name:</label>
+      <label class="control-label" for="user_name">First Name</label>
         <input type="text" name="first_name" id="first_name" class="form-control" placeholder="first name" />
 
         <div class="form-group">
-          <label class="control-label" for="user_name">Last Name:</label>
+          <label class="control-label" for="user_name">Last Name</label>
         <input type="text" name="last_name" id="last_name" class="form-control" placeholder="last name" />
 
     </div>
     <div class="form-group">
-      <label class="control-label" for="pwd">Password:</label>
+      <label class="control-label" for="pwd">Password</label>
         <input type="password" name="password"  class="form-control" id="txtPassword" placeholder="Enter password">
 <div class="form-group">
-  <label class="control-label" for="pwd">Repaet Password:</label>
+  <label class="control-label" for="pwd">Confirm Password</label>
         <input type="password" name="conpasswd"  class="form-control" id="txtConfirmPassword" placeholder="Repeat password">
            <p id="password_status"> <p>
     </div>
 
 <div class="form-group">
-      <label class='control-label' for="sel1">Select Your Shell:</label>
+      <label class='control-label' for="sel1">Default Shell</label>
       <select name="shell" class="form-control" id="sel1">
 <?php
         for($i=1;$i<$shell_len;$i++)

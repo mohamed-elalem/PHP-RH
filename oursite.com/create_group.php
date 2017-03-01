@@ -4,10 +4,11 @@
 	$group_name= $_POST['group_name'];
   if(isset($_POST['create_group'])){
 	exec("sudo groupadd '$group_name'",$output,$ret);
-  if($ret!=1)
+  if($ret==0)
   {
-    echo "error";
+    header('Location: groups.php');
   }
+  
 }
 
 ?>
