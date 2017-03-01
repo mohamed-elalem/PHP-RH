@@ -6,6 +6,9 @@
   </head>
   <body>
     <?php
+
+    session_start();
+      print_r($_SESSION);
     extract($_SESSION);
     $show_shell = explode(PHP_EOL, shell_exec('cat /etc/shells'));
     $shell_len = count($show_shell)-1;
@@ -62,18 +65,14 @@
      ?>
     <form class="" action="index.php" method="post">
       <table width=70% align="center">
-      <tr><td width=25%>Login-Name:</td><td width=75%><input type="text" name="login">
-          <?= $username ?></td><tr>
-      <tr><td width=25%>UID</td><td width=75%><input type="text" name="uid">
-          <?= $uid ?></td><tr>
-      <tr><td width=25%>First Name</td><td width=75%><input type="text" name="fname">
-          <?= $comment ?></td><tr>
+      <tr><td width=25%>Login-Name:</td><td width=75%><input type="text" name="login" value="<?= $username ?>"></td><tr>
+      <tr><td width=25%>UID</td><td width=75%><input type="text" name="uid" value="<?= $uid ?>"></td><tr>
+      <tr><td width=25%>First Name</td><td width=75%><input type="text" name="fname" value="<?= $comment ?>"></td><tr>
       <tr><td width=25%>Last Name</td><td width=75%><input type="text" name="lname"></td><tr>
       <tr><td width=25%>Shell</td><td width=75%>
         <select class="" name="shell">
           <?php
           for($i=1;$i<$shell_len;$i++){
-            echo "<option>".$show_shell[$i]."</option>";
             echo "<option"; if ($show_shell[$i]==$default_shell) {echo " selected";};echo ">".$show_shell[$i]."</option>";
           }
            ?>

@@ -59,6 +59,7 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Groups & Members</h1>
+				<h3 id='deletefailed' class='text-danger'></h3>
 			</div>
 		</div>
 		<div>
@@ -147,14 +148,20 @@
 						'group_name': group
 					},
 					success: function(msg) {
-						$("#group-" + group).remove();
-						$("#" + group).remove();
+						document.querySelector("#deletefailed").innerHTML = "";
+						if(msg.trim() == "0") {					
+							$("#group-" + group).remove();
+							$("#" + group).remove();
+						}
+						else {
+							document.querySelector("#deletefailed").innerHTML = "Error " + msg + ": Cannot delete group '" + group + "' Please refer to online resources (Hint most likely group's primary user exists";
+						}
 					}
 				});
 			}
 
 			function editThisGroup(group) {
-				$.redirect('edit_group.php', {'group': group});
+				$.redirect('updategroup.php', {'group_name': group});
 			}
 		</script>
 	</body>
