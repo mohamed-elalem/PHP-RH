@@ -9,9 +9,9 @@
     $show_shell = explode(PHP_EOL, shell_exec('cat /etc/shells'));
     $shell_len = count($show_shell)-1;
     $show_group = explode(PHP_EOL, shell_exec('cat /etc/group|cut -d: -f1'));
+    array_pop($show_group);
 
     echo exec("sudo tail /etc/passwd")."<br>";
-    echo $_POST['passwd']."<br>";
     $user=exec("sudo tail -n+42 /etc/passwd|cut -f1 -d:");
     $exec_string="";
     $success_str="";
@@ -42,31 +42,23 @@
       }
       if (!empty($_POST['passwd'])) {
         $passwd=$_POST['passwd'];
-        // $str='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        // $salt=substr(str_shuffle($str),0,8);
-        // $salt=bin2hex(random_bytes(7));
-        // ECHO "salt=".$salt;
-        // exec("mkpasswd -m SHA-512 -S $salt $passwd",$passwd_hashed);
-        // echo "passHash="."$passwd_hashed[0]";
-        // $exec_string .= "-p '".$passwd_hashed[0]."' ";
         $username="Mahdy";
         $pass_string="echo '".$username.":'".$passwd."''|sudo chpasswd -c SHA512";
         exec($pass_string);
       }
-      // if (!empty($_POST['prigroup'])) {
-      //   $prigroup=$_POST['prigroup'];
-      //   $exec_string .= "-g '".$prigroup."' ";
-      // }
-      // if (!empty($_POST['$secgroup'])) {
-      //   $secgroup=$_POST['$secgroup'];
-      //   $exec_string .= "-G '".$secgroup."' ";
-      // }
+      if (!empty($_POST['prigroup'])) {
+        $prigroup=$_POST['prigroup'];
+        $exec_string .= "-g '".$prigroup."' ";
+      }
+      if (!empty($_POST['$secgroup'])) {
+        $secgroup=$_POST['$secgroup'];
+        $exec_string .= "-G '".$secgroup."' ";
+      }
 
     }
     $exec_string=$str_prefix.$exec_string.$str_suffix;
     echo $exec_string."<br>";
     exec($exec_string);
-    // echo $success_str."successfully changed";
      ?>
     <form class="" action="index.php" method="post">
       <table width=70% align="center">
@@ -94,8 +86,8 @@
            ?>
         </select>
       </td></tr>
-      <tr><td width=25%>Secondary Group</td><td width=75%></td><tr>
-      <tr><td width=25%><input type="submit"></td></tr>
+<!--       <tr><td width=25%>Secondary Group</td><td width=75%></td><tr>
+ -->      <tr><td width=25%><input type="submit"></td></tr>
     </table>
     </form>
   </body>
