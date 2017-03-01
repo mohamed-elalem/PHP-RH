@@ -30,7 +30,7 @@ if($ret_passwd) {
 
 
 
-  printf("All done!\n");
+
 }
 ?>
 <!DOCTYPE html>
@@ -42,6 +42,35 @@ if($ret_passwd) {
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <script type="text/javascript">
+  function validate() {
+      var firstname = document.getElementById("user_name");
+       var alpha = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/
+      if (firstname.value == "") {
+          alert('Please enter Name');
+          return false;
+      }
+      else if (!username.value.match(alpha)) {
+          alert('Invalid ');
+          return false;
+     }
+     else
+     {
+      return true;
+     }
+  }
+function check(){
+  var username=document.getElementById("user_name");
+  var firstname=document.getElementById("first_name");
+  var lastname=document.getElementById("last_name");
+  var password=document.getElementById("txtPassword");
+  var conpasswd=document.getElementById("txtConfirmPassword");
+    if(username.value=="" || firstname.value=="" || lastname.value==""||password.value==""||conpasswd.value==""){
+      alert ("Invalid input"); return false;
+      header('Location: createanddelete.php')
+    }else{
+      return true;
+    }
+  }
      function Validate() {
          var password = document.getElementById("txtPassword").value;
          var confirmPassword = document.getElementById("txtConfirmPassword").value;
@@ -53,7 +82,7 @@ if($ret_passwd) {
      }
  </script>
 </head>
-<body  onsubmit="Validate();">
+<body  onsubmit="Validate(); check(); validateForm();">
   <div class="container">
   <div class="jumbotron">
     <h1>Creating User</h1>
@@ -81,19 +110,19 @@ if($ret_passwd) {
       <input type="text" class="form-control" id="user_name" name="user_name" placeholder="UserName">
     <div class="form-group">
       <label class="control-label" for="user_name">First Name:</label>
-        <input type="text" name="first_name" class="form-control" placeholder="first name" />
+        <input type="text" name="first_name" id="first_name" class="form-control" placeholder="first name" />
 
         <div class="form-group">
           <label class="control-label" for="user_name">Last Name:</label>
-        <input type="text" name="last_name" class="form-control" placeholder="last name" />
+        <input type="text" name="last_name" id="last_name" class="form-control" placeholder="last name" />
 
     </div>
     <div class="form-group">
       <label class="control-label" for="pwd">Password:</label>
-        <input type="password" name="password" class="form-control" id="txtPassword" placeholder="Enter password">
+        <input type="password" name="password"  class="form-control" id="txtPassword" placeholder="Enter password">
 <div class="form-group">
   <label class="control-label" for="pwd">Repaet Password:</label>
-        <input type="password" name="conpasswd" class="form-control" id="txtConfirmPassword" placeholder="Repeat password">
+        <input type="password" name="conpasswd"  class="form-control" id="txtConfirmPassword" placeholder="Repeat password">
            <p id="password_status"> <p>
     </div>
 
