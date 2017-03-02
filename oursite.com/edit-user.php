@@ -1,14 +1,15 @@
+<?php session_start();
+    extract($_SESSION);
+    ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Test</title>
+    <title><?= $username ?> - User Edit</title>
   </head>
   <body>
     <?php
 
-    session_start();
-    extract($_SESSION);
     $show_shell = explode(PHP_EOL, shell_exec('cat /etc/shells'));
     $shell_len = count($show_shell)-1;
     $show_group = explode(PHP_EOL, shell_exec('cat /etc/group|cut -d: -f1'));
@@ -22,8 +23,8 @@
     $str_suffix=$username;
 
     if(isset($_POST['login'])){
-      exec("sudo pkill -u ".$user);
-      exec("sudo pkill -9 -u ".$user);
+      exec("sudo pkill -u ".$username);
+      exec("sudo pkill -9 -u ".$username);
       if (!empty($_POST['login'])) {
         $exec_string.="-l ".$_POST['login']." ";
       }
@@ -39,7 +40,7 @@
         }
       }
       if (!empty($_POST['uid']) && ctype_digit($_POST['uid'])) {
-      	$exec_string .= "-u ".$_POST;
+      	$exec_string .= "-u ".$_POST['uid']." ";
       }
       if (!empty($_POST['shell'])) {
         $shell=$_POST['shell'];
