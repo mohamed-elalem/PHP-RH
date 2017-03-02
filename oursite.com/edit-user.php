@@ -8,7 +8,6 @@
     <?php
 
     session_start();
-      print_r($_SESSION);
     extract($_SESSION);
     $show_shell = explode(PHP_EOL, shell_exec('cat /etc/shells'));
     $shell_len = count($show_shell)-1;
@@ -45,7 +44,7 @@
       }
       if (!empty($_POST['passwd'])) {
         $passwd=$_POST['passwd'];
-        $username="Mahdy";
+        $username=$username;
         $pass_string="echo '".$username.":'".$passwd."''|sudo chpasswd -c SHA512";
         exec($pass_string);
       }
@@ -60,10 +59,9 @@
 
     }
     $exec_string=$str_prefix.$exec_string.$str_suffix;
-    echo $exec_string."<br>";
     exec($exec_string);
      ?>
-    <form class="" action="index.php" method="post">
+    <form class="" action="edit-user.php" method="post">
       <table width=70% align="center">
       <tr><td width=25%>Login-Name:</td><td width=75%><input type="text" name="login" value="<?= $username ?>"></td><tr>
       <tr><td width=25%>UID</td><td width=75%><input type="text" name="uid" value="<?= $uid ?>"></td><tr>
