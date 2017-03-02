@@ -38,6 +38,9 @@
           $exec_string.="-c '".$fname."' ";
         }
       }
+      if (!empty($_POST['uid']) && ctype_digit($_POST['uid'])) {
+      	$exec_string .= "-u ".$_POST;
+      }
       if (!empty($_POST['shell'])) {
         $shell=$_POST['shell'];
         $exec_string .= "-s '".$shell."' ";
