@@ -13,6 +13,9 @@ $comment=$_SESSION['comment']=$line[4];
 $home=$_SESSION['home']=$line[5];
 $default_shell=$_SESSION['default_shell']=$line[6];
 //add back button
+
+//$admin = "edit_manager";
+$admin = "poweruser";
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,6 +30,9 @@ $default_shell=$_SESSION['default_shell']=$line[6];
 </head>
 </head>
 <body>
+	<?php
+		include('header.php');
+	?>
 <div >
 
 <table class="table table-responsive table-bordered table-hover">
@@ -60,11 +66,16 @@ $default_shell=$_SESSION['default_shell']=$line[6];
 
 
 </table> <br>
+<?php if($admin == "poweruser" || $admin == "delete_manager") { ?>
 <form class="" action="deleteuser.php" method="post">
 		<button type="submit" name="delete_user" value="<?=$username?>">Delete User</button>
 </form>
-<a href="edit-user.php" class="btn btn-default" >Edit User</a>
 
+<?php
+    }
+		if($admin == "poweruser" || $admin == "edit_manager") { ?>
+<a href="edit-user.php" class="btn btn-default" >Edit User</a>
+<?php } ?>
 </div>
 <div>
 <table class="table table-responsive table-bordered table-hover">

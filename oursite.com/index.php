@@ -4,6 +4,8 @@ if(!$f){
 echo "sorry can not open file";
 exit;
 }
+//$admin = "edit_manager";
+$admin = "poweruser";
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,6 +20,16 @@ exit;
 </head>
 </head>
 <body>
+	<?php
+		include('header.php');
+	?>
+<div>
+	<?php if($admin == "poweruser" || $admin == "edit_manager") { ?>
+	<a class='btn btn-lg btn-primary btn-block' href='createanddelete.php' style='margin-top: 5px'>
+		<span class='glyphicon glyphicon-plus'></span> Create New User
+	</a>
+	<?php } ?>
+</div>
 <div class="table-responsive">
 <form action="userdetails.php" method="post">
 <table class="table table-responsive table-bordered table-hover">
@@ -33,22 +45,22 @@ exit;
 
 	if (strpos($line[6],'nologin'))
     	$rowstyle="color:red;" ;
-	else 
+	else
 	    $rowstyle="";
-	
-	
+
+
 	?>
 
 	<tr style="<?= $rowstyle ?>" >
 		<td>
 		<input type="submit" class="traverse" name="username" value="<?= $line[0] ?>" />
-			
-		</td>	
-		
+
+		</td>
+
 		<td>
 			<?= $line[4] ?>
 		</td>
-		
+
 	</tr>
 
 	<?php
