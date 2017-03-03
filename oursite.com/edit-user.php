@@ -1,5 +1,6 @@
 <?php
-include_once "log/LogsFunctions.php";
+include('check_request.php');
+include_once "log2/LogsFunctions.php";
 session_start();
 include 'header.php';
 extract($_SESSION);
@@ -17,20 +18,17 @@ extract($_SESSION);
         $shell_len = count($show_shell) - 1;
         $show_group = explode(PHP_EOL, shell_exec('cat /etc/group|cut -d: -f1'));
         array_pop($show_group);
-        $remote_user = $_SESSION['username'];
-        $remote_group = $_SESSION['groupname'];
+//        $remote_user = $_SESSION['username'];
+//        $remote_group = $_SESSION['groupname'];
 
-        // echo exec("sudo tail /etc/passwd")."<br>";
-        // $user=exec("sudo tail -n+42 /etc/passwd|cut -f1 -d:");
         $exec_string = "";
         $success_str = "";
         $str_prefix = "sudo usermod ";
         $str_suffix = $username;
 
-        if (isset($_POST['login'])) {
-            exec("sudo pkill -u " . $username);
-            exec("sudo pkill -9 -u " . $username);
-            if (isset($_POST['login']) && !empty($_POST['login'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
+            echo $_POST['login'] == $username;
+            if (isset($_POST['login']) && !empty($_POST['login'] && $_POST['login'] != $username)) {
                 exec("sudo pkill -u " . $username);
                 exec("sudo pkill -9 -u " . $username);
                 $exec_string.="-l " . $_POST['login'] . " ";
@@ -57,30 +55,24 @@ extract($_SESSION);
                 $pass_string = "echo '" . $username . ":'" . $passwd . "''|sudo chpasswd -c SHA512";
                 exec($pass_string, $out, $pcode);
                 if ($pcode == 0) {
-                    infolog($remote_group, $remote_user, "Successfully changed the password of user  '" . $username . "'", "Success");
-                    header("Location:index.php");
-                    exit();
+                    infolog("Successfully changed the password of user  '" . $username . "'", "Success");
                 } else {
-                    errlog($remote_group, $remote_user, "Error " . $code . ": unable to cahnge password for user '" . $username . "'");
+                    errlog("Error " . $code . ": unable to cahnge password for user '" . $username . "'");
                 }
             }
             if (!empty($_POST['prigroup'])) {
                 $prigroup = $_POST['prigroup'];
                 $exec_string .= "-g '" . $prigroup . "' ";
             }
-//            if (!empty($_POST['$secgroup'])) {
-//                $secgroup = $_POST['$secgroup'];
-//                $exec_string .= "-G '" . $secgroup . "' ";
-//            }
-
+//            
             $exec_string = $str_prefix . $exec_string . $str_suffix;
             exec($exec_string, $out, $code);
             if ($code == 0) {
-                infolog($remote_group, $remote_user, "Successfully changed the data of user  '" . $username . "'", "Success");
+                infolog("Successfully changed the data of user  '" . $username . "'", "Success");
                 header("Location:index.php");
                 exit();
             } else {
-                errlog($remote_group, $remote_user, "Error " . $code . ": unable to cahnge data for user '" . $username . "'");
+                errlog("Error " . $code . ": unable to cahnge data for user '" . $username . "'");
             }
         }
         ?>
