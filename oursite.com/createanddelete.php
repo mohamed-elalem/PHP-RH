@@ -1,7 +1,8 @@
 
 <?php
+  session_start();
   include_once "log/LogsFunctions.php";
-session_start();
+
 $show_shell=explode(PHP_EOL, shell_exec('cat /etc/shells'));
 $shell_len=count($show_shell) -1;
 $code = 0;
@@ -13,15 +14,15 @@ $last_name=$_POST['last_name'];
 $shell=$_POST['shell'];
 $ret_useradd = 0;
 $ret_passwd = 0;
-$admin= $_SESSION['groupname']
+$admin= $_SESSION['groupname'];
 $user=$_SESSION['username'];
 if(isset($_POST['create'])){
         exec('sudo useradd -m -p '.$user_pass." -c '".$first_name." ".$last_name."' -s ".$shell." ".$user_name,$ret_useradd,$code);
 
         if($code==0)
-          infolog($admin,$user,"Successfully added user '".$user."' to the system","Success");
+          infolog("Successfully added userto the system","Success");
         else
-          errlog($admin,$user,"Error ".$code.": unable to create user '".$user."'");
+          errlog("Error  unable to create user ");
 
 
 

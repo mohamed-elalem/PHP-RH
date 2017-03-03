@@ -1,19 +1,20 @@
 <?php
+session_start();
   include_once "log/LogsFunctions.php";
   include('check_request.php');
-  session_start();
+  
   $group_name= $_POST['group_name'];
   $admin= $_SESSION['groupname']
   $user=$_SESSION['username'];
   if(isset($_POST['create_group'])){
   exec("sudo groupadd '$group_name'",$output,$ret);
   if($ret==0){
-          infolog($admin,$user,"Successfully added group '".$group_name."' to the system","Success");
+          infolog("Successfully added group to the system Success");
           header('Location: groups.php');
       }
         else
             {
-              errlog($admin,$user,"Error ".$ret.": unable to create group '".$group_name."'");
+              errlog("Error  unable to create group");
         
  
   }
