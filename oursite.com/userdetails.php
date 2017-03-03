@@ -14,10 +14,9 @@ $home=$_SESSION['home']=$line[5];
 $default_shell=$_SESSION['default_shell']=$line[6];
 //add back button
 
-//$admin = "edit_manager";
-$remote_group = "poweruser";
-$remote_user ="hassan";
-$admin = "poweruser";
+$remote_group = $_SESSION['groupname'];
+$remote_user =$_SESSION['username'];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,7 +67,7 @@ $admin = "poweruser";
 
 
 </table> <br>
-<?php if($admin == "poweruser" || $admin == "delete_manager") { ?>
+<?php if($remote_group == "poweruser" || $remote_group == "delete_manager") { ?>
 <form class="" action="deleteuser.php" method="post">
 		<input type="hidden" name="remote_group" value="<?= $remote_group ?>">
 		<input type="hidden" name="remote_user" value="<?=$remote_user ?>">
@@ -77,7 +76,7 @@ $admin = "poweruser";
 
 <?php
     }
-		if($admin == "poweruser" || $admin == "edit_manager") { ?>
+		if($remote_group == "poweruser" || $remote_group == "edit_manager") { ?>
 <a href="edit-user.php" class="btn btn-default" >Edit User</a>
 <?php } ?>
 </div>
