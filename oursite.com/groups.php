@@ -113,7 +113,7 @@
 		</div>
 		<script>
 			function addToGroup(id) {
-				console.log(id);
+				document.querySelector("#deletefailed").innerHTML = "";
 				$.ajax({
 					type: 'POST',
 					url: 'action.php',
@@ -132,6 +132,7 @@
 			}
 			
 			function deleteFromGroup(id) {
+				document.querySelector("#deletefailed").innerHTML = "";
 				$.ajax({
 					type: 'POST',
 					url: 'action.php',
@@ -150,6 +151,7 @@
 			}
 			
 			function addEditDeleteGroupOption(id) {
+				document.querySelector("#deletefailed").innerHTML = "";
 				var groupName = id.split("-")[1];
 				$(".group-option").remove();
 				editButton = "<?php if($admin == 'poweruser' || $admin == 'edit_manager') { ?><button class='traverse' onclick='editThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-edit text-primary'></span></button><?php } ?>";
@@ -158,7 +160,7 @@
 			}
 
 			function deleteThisGroup(group) {
-				
+				document.querySelector("#deletefailed").innerHTML = "";
 				$.ajax( {
 					type: 'POST',
 					url: 'delete.php',
@@ -168,7 +170,6 @@
 						'remote_group': "<?php echo $admin; ?>"
 					},
 					success: function(msg) {
-						document.querySelector("#deletefailed").innerHTML = "";
 						alert(msg);
 						if(msg.trim() == "0") {					
 							$("#group-" + group).remove();
