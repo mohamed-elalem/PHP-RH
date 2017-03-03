@@ -182,7 +182,7 @@
 			}
 
 			function editThisGroup(group) {
-				$.redirect('updategroup.php', {'group_name': group});
+				$.redirect('updategroup.php', {'group_name': group, 'remote_user': "<?php echo $user; ?>", 'remote_group': "<?php echo $admin; ?>"});
 			}
 		</script>
 	</body>
