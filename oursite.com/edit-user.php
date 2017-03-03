@@ -1,5 +1,4 @@
 <?php
-include('check_request.php');
 include_once "log/LogsFunctions.php";
 session_start();
 include 'header.php';

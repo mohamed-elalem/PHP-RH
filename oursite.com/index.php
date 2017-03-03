@@ -4,8 +4,7 @@ if(!$f){
 echo "sorry can not open file";
 exit;
 }
-//$admin = "edit_manager";
-$admin = "poweruser";
+
 ?>
 <!DOCTYPE html>
 <html>
