@@ -23,13 +23,7 @@ $admin = "poweruser";
 	<?php
 		include('header.php');
 	?>
-<div>
-	<?php if($admin == "poweruser" || $admin == "edit_manager") { ?>
-	<a class='btn btn-lg btn-primary btn-block' href='createanddelete.php' style='margin-top: 5px'>
-		<span class='glyphicon glyphicon-plus'></span> Create New User
-	</a>
-	<?php } ?>
-</div>
+
 <div class="table-responsive">
 <form action="userdetails.php" method="post">
 <table class="table table-responsive table-bordered table-hover">

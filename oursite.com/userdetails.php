@@ -15,6 +15,8 @@ $default_shell=$_SESSION['default_shell']=$line[6];
 //add back button
 
 //$admin = "edit_manager";
+$remote_group = "poweruser";
+$remote_user ="hassan";
 $admin = "poweruser";
 ?>
 <!DOCTYPE html>
@@ -68,6 +70,8 @@ $admin = "poweruser";
 </table> <br>
 <?php if($admin == "poweruser" || $admin == "delete_manager") { ?>
 <form class="" action="deleteuser.php" method="post">
+		<input type="hidden" name="remote_group" value="<?= $remote_group ?>">
+		<input type="hidden" name="remote_user" value="<?=$remote_user ?>">
 		<button type="submit" name="delete_user" value="<?=$username?>">Delete User</button>
 </form>
 

@@ -8,7 +8,7 @@
 	exec("sudo groupdel '$group_name'", $out, $code);
 	echo $code;
 	if($code == 0) {
-		infolog($remote_group, $remote_user, "Successfully deleted group '".$group_name."'", "Success"); 
+		infolog($remote_group, $remote_user, "Successfully deleted group '".$group_name."'", "Success");
 	}
 	else {
 		errlog($remote_group, $remote_user, "Error ".$code.": unable to delete group '".$group_name."'");

@@ -1,7 +1,7 @@
 	<?php
 		$admin = 'poweruser';
 		echo <<<EOL
-		<nav class="navbar navbar-inverse" style='margin-bottom: 0'>
+		<nav class=" navbar-inverse" style='margin-bottom: 0'>
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -24,7 +24,7 @@ EOL;
 		echo <<<EOL
 		<li><a href="groups.php">Manage groups</a></li>
       </ul>
-      
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
