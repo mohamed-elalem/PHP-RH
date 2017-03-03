@@ -1,4 +1,6 @@
 <?php
+include('check_request.php');
+include_once "log/LogsFunctions.php";
 session_start();
 include 'header.php';
 extract($_SESSION);
@@ -16,6 +18,8 @@ extract($_SESSION);
         $shell_len = count($show_shell) - 1;
         $show_group = explode(PHP_EOL, shell_exec('cat /etc/group|cut -d: -f1'));
         array_pop($show_group);
+        $remote_user = $_SESSION['username'];
+        $remote_group = $_SESSION['groupname'];
 
         // echo exec("sudo tail /etc/passwd")."<br>";
         // $user=exec("sudo tail -n+42 /etc/passwd|cut -f1 -d:");
@@ -27,10 +31,11 @@ extract($_SESSION);
         if (isset($_POST['login'])) {
             exec("sudo pkill -u " . $username);
             exec("sudo pkill -9 -u " . $username);
-            if (!empty($_POST['login'])) {
+            if (isset($_POST['login']) && !empty($_POST['login'])) {
+                exec("sudo pkill -u " . $username);
+                exec("sudo pkill -9 -u " . $username);
                 $exec_string.="-l " . $_POST['login'] . " ";
             }
-            // $success_str.="Login-";
             if (!empty($_POST['fname'])) {
                 $fname = $_POST['fname'];
                 if (!empty($_POST['lname'])) {
@@ -51,27 +56,39 @@ extract($_SESSION);
                 $passwd = $_POST['passwd'];
                 $username = $username;
                 $pass_string = "echo '" . $username . ":'" . $passwd . "''|sudo chpasswd -c SHA512";
-                exec($pass_string);
+                exec($pass_string, $out, $pcode);
+                if ($pcode == 0) {
+                    infolog($remote_group, $remote_user, "Successfully changed the password of user  '" . $username . "'", "Success");
+                    header("Location:index.php");
+                    exit();
+                } else {
+                    errlog($remote_group, $remote_user, "Error " . $code . ": unable to cahnge password for user '" . $username . "'");
+                }
             }
             if (!empty($_POST['prigroup'])) {
                 $prigroup = $_POST['prigroup'];
                 $exec_string .= "-g '" . $prigroup . "' ";
             }
-            if (!empty($_POST['$secgroup'])) {
-                $secgroup = $_POST['$secgroup'];
-                $exec_string .= "-G '" . $secgroup . "' ";
-            }
+//            if (!empty($_POST['$secgroup'])) {
+//                $secgroup = $_POST['$secgroup'];
+//                $exec_string .= "-G '" . $secgroup . "' ";
+//            }
 
             $exec_string = $str_prefix . $exec_string . $str_suffix;
-            exec($exec_string);
-            header("Location:index.php");
-            exit();
+            exec($exec_string, $out, $code);
+            if ($code == 0) {
+                infolog($remote_group, $remote_user, "Successfully changed the data of user  '" . $username . "'", "Success");
+                header("Location:index.php");
+                exit();
+            } else {
+                errlog($remote_group, $remote_user, "Error " . $code . ": unable to cahnge data for user '" . $username . "'");
+            }
         }
         ?>
         <div class="jumbotron">
             <div class="container">
-            <h2>Edit user data</h2>
-        </div>
+                <h2>Edit user data</h2>
+            </div>
         </div>
         <div class="container">
             <form class="form-horizontal" action="edit-user.php" method="post">
