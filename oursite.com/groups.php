@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	$group_names = explode(PHP_EOL, shell_exec("cut -f1 -d: /etc/group"));
 	$group_names_count = count($group_names) - 1;
 	$all_users = explode(PHP_EOL, shell_exec("cut -f1 -d: /etc/passwd"));
@@ -7,10 +8,10 @@
 	$all_users_count -= 1;
 	$group_and_members = array();
 
-//	$admin = "delete_manager";
-//	$user = "nothing";
-	$admin = $_SESSION['groupname'];
-	$user = $_SESSION['username'];	
+	$admin = "delete_manager";
+	$user = "nothing";
+//	$admin = $_SESSION['groupname'];
+//	$user = $_SESSION['username'];	
 	for($i = 0; $i < $group_names_count; $i++) {
 		$group_names[$i] = trim($group_names[$i]);
 	}
