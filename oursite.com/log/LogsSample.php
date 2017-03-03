@@ -1,5 +1,5 @@
 <?php
-include_once "LogsFunctions";
+include_once "LogsFunctions.php";
 $gName="Logs Team";
 $uName="Mohamed Gnedy";
 $message="Log Message";
