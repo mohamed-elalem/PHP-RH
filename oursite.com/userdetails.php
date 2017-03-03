@@ -15,7 +15,7 @@ $default_shell=$_SESSION['default_shell']=$line[6];
 //add back button
 
 $remote_group = $_SESSION['groupname'];
-//$remote_group = "poweruser";
+$remote_group = "poweruser";
 $remote_user =$_SESSION['username'];
 
 ?>
@@ -69,20 +69,25 @@ $remote_user =$_SESSION['username'];
 
 </table> <br>
 <div class="form-group">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-1">
+		<div class='container'>
+			<div class='row'>
+						<div class="col-md-1">
+						<?php
+								if($remote_group == "poweruser" || $remote_group == "edit_manager") { ?>
+						<a href="edit-user.php" class="btn btn-success" >Edit User</a></div><?php } ?>
+				<div class="col-md-1">
 
-				<?php
-						if($remote_group == "poweruser" || $remote_group == "edit_manager") { ?>
-				<a href="edit-user.php" class="btn btn-success" >Edit User</a>
-				<?php }
-				 if($remote_group == "poweruser" || $remote_group == "delete_manager") { ?>
-				<form class="" action="deleteuser.php" method="post">
-						<input type="hidden" name="remote_group" value="<?= $remote_group ?>">
-						<input type="hidden" name="remote_user" value="<?=$remote_user ?>">
-						<button type="submit" name="delete_user" value="<?=$username?>" class="btn btn-danger">Delete User</button>
-				</form>
-				<?php } ?>
+						<?php
+				
+						 if($remote_group == "poweruser" || $remote_group == "delete_manager") { ?>
+						<form class="" action="deleteuser.php" method="post">
+								<input type="hidden" name="remote_group" value="<?= $remote_group ?>">
+								<input type="hidden" name="remote_user" value="<?=$remote_user ?>">
+								<button type="submit" name="delete_user" value="<?=$username?>" class="btn btn-danger">Delete User</button>
+						</form>
+						<?php } ?>
+			</div>
+		</div>
 </div>
 </div>
 </div>

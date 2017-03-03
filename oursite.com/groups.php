@@ -7,9 +7,10 @@
 	$all_users_count -= 1;
 	$group_and_members = array();
 
-	$admin = "delete_manager";
-	$user = "nothing";
-	
+//	$admin = "delete_manager";
+//	$user = "nothing";
+	$admin = $_SESSION['groupname'];
+	$user = $_SESSION['username'];	
 	for($i = 0; $i < $group_names_count; $i++) {
 		$group_names[$i] = trim($group_names[$i]);
 	}

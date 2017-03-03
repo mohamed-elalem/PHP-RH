@@ -1,8 +1,7 @@
 <?php
-include('check_request.php');
+//include('check_request.php');
 include_once "log2/LogsFunctions.php";
 session_start();
-include 'header.php';
 extract($_SESSION);
 ?>
 <!DOCTYPE html>
@@ -14,6 +13,8 @@ extract($_SESSION);
     </head>
     <body>
         <?php
+        include 'header.php';
+
         $show_shell = explode(PHP_EOL, shell_exec('cat /etc/shells'));
         $shell_len = count($show_shell) - 1;
         $show_group = explode(PHP_EOL, shell_exec('cat /etc/group|cut -d: -f1'));
