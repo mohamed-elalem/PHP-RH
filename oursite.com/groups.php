@@ -170,7 +170,6 @@
 						'remote_group': "<?php echo $admin; ?>"
 					},
 					success: function(msg) {
-						alert(msg);
 						if(msg.trim() == "0") {					
 							$("#group-" + group).remove();
 							$("#" + group).remove();
