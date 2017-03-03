@@ -3,8 +3,8 @@
   include('check_request.php');
   session_start();
   $group_name= $_POST['group_name'];
-  $admin= "poweruser";
-  $user="nothing";
+  $admin= $_SESSION['groupname']
+  $user=$_SESSION['username'];
   if(isset($_POST['create_group'])){
   exec("sudo groupadd '$group_name'",$output,$ret);
   if($ret==0){
@@ -21,7 +21,7 @@
 ?>
 <html>
 <head>
-  <title>Bootstrap Example</title>
+  <title>PHP and RedHat Project</title>
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
