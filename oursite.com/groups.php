@@ -8,6 +8,7 @@
 	$group_and_members = array();
 
 	$admin = "delete_manager";
+	$user = "nothing";
 	
 	for($i = 0; $i < $group_names_count; $i++) {
 		$group_names[$i] = trim($group_names[$i]);
@@ -118,7 +119,9 @@
 					url: 'action.php',
 					data: {
 						'add': ' ',
-						'info': id
+						'info': id,
+						'remote_user': "<?php echo $user; ?>",
+						'remote_group': "<?php echo $admin; ?>"
 					},
 					success: function(msg) {
 						$("#" + id + " span").removeClass("glyphicon glyphicon-plus text-primary");
@@ -134,7 +137,9 @@
 					url: 'action.php',
 					data: {
 						'delete': ' ',
-						'info': id
+						'info': id,
+						'remote_user': "<?php echo $user; ?>",
+						'remote_group': "<?php echo $admin; ?>"
 					},
 					success: function(msg) {
 						$("#" + id + " span").removeClass("glyphicon glyphicon-minus text-danger");
@@ -151,16 +156,20 @@
 				deleteButton = "<?php if($admin == 'poweruser' || $admin == 'delete_manager') { ?></button><button class='traverse' onclick='deleteThisGroup(\"" + groupName + "\")'><span class=' glyphicon glyphicon-minus text-danger'></span></button><?php } ?>";
 				$("#" + id).append("<div class='group-option btn-group pull-right'>" + editButton + deleteButton + "</div>");           
 			}
-			 + 
+
 			function deleteThisGroup(group) {
+				
 				$.ajax( {
 					type: 'POST',
 					url: 'delete.php',
 					data: {
-						'group_name': group
+						'group_name': group,
+						'remote_user': "<?php echo $user; ?>",
+						'remote_group': "<?php echo $admin; ?>"
 					},
 					success: function(msg) {
 						document.querySelector("#deletefailed").innerHTML = "";
+						alert(msg);
 						if(msg.trim() == "0") {					
 							$("#group-" + group).remove();
 							$("#" + group).remove();
