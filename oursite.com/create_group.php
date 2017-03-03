@@ -1,13 +1,22 @@
 <?php
+  include_once "log/LogsFunctions.php";
+  include('check_request.php');
   session_start();
   $group_name= $_POST['group_name'];
+  $admin= "poweruser";
+  $user="nothing";
   if(isset($_POST['create_group'])){
   exec("sudo groupadd '$group_name'",$output,$ret);
-  if($ret==0)
-  {
-    header('Location: groups.php');
+  if($ret==0){
+          infolog($admin,$user,"Successfully added group '".$group_name."' to the system","Success");
+          header('Location: groups.php');
+      }
+        else
+            {
+              errlog($admin,$user,"Error ".$ret.": unable to create group '".$group_name."'");
+        
+ 
   }
-  
 }
 ?>
 <html>
@@ -20,7 +29,7 @@
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
   <body>
-
+<?php include('header.php'); ?>
 <div class="jumbotron">
   <h1>Creating Group</h1>
 </div>

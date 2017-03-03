@@ -1,9 +1,10 @@
 
 <?php
+  include_once "log/LogsFunctions.php";
 session_start();
 $show_shell=explode(PHP_EOL, shell_exec('cat /etc/shells'));
 $shell_len=count($show_shell) -1;
-$code = 1;
+$code = 0;
 $user_name = $_POST['user_name'];
 $user_pass = $_POST['password'];
 $conf_pass=$_POST['conpasswd'];
@@ -12,25 +13,24 @@ $last_name=$_POST['last_name'];
 $shell=$_POST['shell'];
 $ret_useradd = 0;
 $ret_passwd = 0;
-
+$admin= "poweruser";
+$user="nothing";
 if(isset($_POST['create'])){
         exec('sudo useradd -m -p '.$user_pass." -c '".$first_name." ".$last_name."' -s ".$shell." ".$user_name,$ret_useradd,$code);
-if($ret_useradd) {
-        printf("Something wrong with useradd, code: %d\n", $ret_useradd);
-        exit();
-  }
+
+        if($code==0)
+          infolog($admin,$user,"Successfully added user '".$user."' to the system","Success");
+        else
+          errlog($admin,$user,"Error ".$code.": unable to create user '".$user."'");
 
 
-if($ret_passwd) {
-          printf("Something wrong with chpasswd, code: %d\n", $ret_passwd);
-          echo exec('userdel '.$user_name);
-          exit();
-  }
+
 
 
 
 
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,12 +82,13 @@ function check(){
  </script>
 </head>
 <body  onsubmit="return Validate() && check();">
+  <?php include('header.php'); ?>
   <div class="jumbotron">
     <h1>User creation</h1>
     <?php
-      if($code != 1) {
+      if($code != 0) {
         ?>
-        <h3 class='text-danger'>Error occured please check <?php if($code != 0) { ?><a target='_blank' href="http://www.google.com/?q=exit+error+<?=$code?>+bash">Google search</a><?php } ?></h3>
+        <h3 class='text-danger'> <?php if($code != 0) { ?> Error occured please check <a target='_blank' href="http://www.google.com/?q=exit+error+<?=$code?>+bash">Google search</a> <?php } ?></h3>
 		<h3 class="text-danger" id='mismatch'></h3>		
 		<h3 class="text-danger" id='invalidinput'></h3>        
 		<?php
@@ -125,12 +126,15 @@ function check(){
     </div>
 
 <div class="form-group">
-      <label class='control-label' for="sel1">Default Shell</label>
-      <select name="shell" class="form-control" id="sel1">
+      <label class='control-label' for="shel1">Default Shell</label>
+      <select name="shell" class="form-control" id="shel1">
 <?php
         for($i=1;$i<$shell_len;$i++)
         {
-          echo "<option>".$show_shell[$i]."</option>";
+          echo "<option ";
+          if($i == 1)
+            echo "selected";
+          echo ">".$show_shell[$i]."</option>";
         }
           ?>
       </select>
