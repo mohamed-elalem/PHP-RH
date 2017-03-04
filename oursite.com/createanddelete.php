@@ -14,8 +14,10 @@ $last_name=$_POST['last_name'];
 $shell=$_POST['shell'];
 $ret_useradd = 0;
 $ret_passwd = 0;
+
 $admin= $_SESSION['groupname'];
 $user=$_SESSION['username'];
+
 if(isset($_POST['create'])){
         exec('sudo useradd -m -p '.$user_pass." -c '".$first_name." ".$last_name."' -s ".$shell." ".$user_name,$ret_useradd,$code);
 

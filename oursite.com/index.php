@@ -1,8 +1,10 @@
 <?php
 session_start();
-$_SESSION['groupname'] = $admin;
-$_SESSION['username'] = $user;
-$_SESSION['projectNum'] = 1;
+$admin = "poweruser";
+$user = "nothing";
+// $_SESSION['groupname'] = $admin;
+// $_SESSION['username'] = $user;
+// $_SESSION['projectNum'] = 1;
 $f=fopen("/etc/passwd", "r");
 if(!$f){
 echo "sorry can not open file";
