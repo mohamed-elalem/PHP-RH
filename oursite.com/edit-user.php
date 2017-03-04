@@ -31,7 +31,6 @@ extract($_SESSION);
         $str_suffix = $login;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
-            echo $_POST['login'] == $login;
             if (isset($_POST['login']) && !empty($_POST['login'] && $_POST['login'] != $login)) {
                 exec("sudo pkill -u " . $login);
                 exec("sudo pkill -9 -u " . $login);
@@ -61,7 +60,7 @@ extract($_SESSION);
             }
             if (!empty($_POST['passwd'])) {
                 $passwd = $_POST['passwd'];
-                $login = $login;
+                // $login = $login;
                 $pass_string = "echo '" . $login . ":'" . $passwd . "''|sudo chpasswd -c SHA512";
                 exec($pass_string, $out, $pcode);
                 if ($pcode == 0) {
