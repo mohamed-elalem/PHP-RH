@@ -1,9 +1,9 @@
 <?php
 session_start();
 //include('check_request.php');
-$_SESSION['username'] = "Logger";
-$_SESSION['groupname'] = "Group1";
-$_SESSION['projectNum'] = "1";
+// $_SESSION['username'] = "Logger";
+// $_SESSION['groupname'] = "Group1";
+// $_SESSION['projectNum'] = "1";
 
 extract($_SESSION);
 ?>
