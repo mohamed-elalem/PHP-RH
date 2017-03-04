@@ -4,8 +4,10 @@ session_start();
   include('check_request.php');
   
   $group_name= $_POST['group_name'];
+  
   $admin= $_SESSION['groupname']
   $user=$_SESSION['username'];
+  
   if(isset($_POST['create_group'])){
   exec("sudo groupadd '$group_name'",$output,$ret);
   if($ret==0){
