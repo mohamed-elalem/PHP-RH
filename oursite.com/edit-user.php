@@ -1,7 +1,10 @@
 <?php
-//include('check_request.php');
-include_once "log2/LogsFunctions.php";
 session_start();
+//include('check_request.php');
+// $_SESSION['username'] = "Logger";
+// $_SESSION['groupname'] = "Group1";
+// $_SESSION['projectNum'] = "1";
+
 extract($_SESSION);
 ?>
 <!DOCTYPE html>
@@ -9,12 +12,12 @@ extract($_SESSION);
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-        <title><?= $username ?> - User Edit</title>
+        <title><?= $login ?> - User Edit</title>
     </head>
     <body>
         <?php
         include 'header.php';
-
+        require("./log/LogsFunctions.php");
         $show_shell = explode(PHP_EOL, shell_exec('cat /etc/shells'));
         $shell_len = count($show_shell) - 1;
         $show_group = explode(PHP_EOL, shell_exec('cat /etc/group|cut -d: -f1'));
@@ -25,13 +28,12 @@ extract($_SESSION);
         $exec_string = "";
         $success_str = "";
         $str_prefix = "sudo usermod ";
-        $str_suffix = $username;
+        $str_suffix = $login;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
-            echo $_POST['login'] == $username;
-            if (isset($_POST['login']) && !empty($_POST['login'] && $_POST['login'] != $username)) {
-                exec("sudo pkill -u " . $username);
-                exec("sudo pkill -9 -u " . $username);
+            if (isset($_POST['login']) && !empty($_POST['login'] && $_POST['login'] != $login)) {
+                exec("sudo pkill -u " . $login);
+                exec("sudo pkill -9 -u " . $login);
                 $exec_string.="-l " . $_POST['login'] . " ";
             }
             if (!empty($_POST['fname'])) {
@@ -43,8 +45,14 @@ extract($_SESSION);
                     $exec_string.="-c '" . $fname . "' ";
                 }
             }
-            if (!empty($_POST['uid']) && ctype_digit($_POST['uid'])) {
-                $exec_string .= "-u " . $_POST['uid'] . " ";
+            if (!empty($_POST['uid'])) {
+                if (ctype_digit($_POST['uid'])) {
+                    $exec_string .= "-u " . $_POST['uid'] . " ";
+                }
+                else{
+                    errlog("Error '".$_POST['uid']."' is not a valid user id.");
+                }
+                
             }
             if (!empty($_POST['shell'])) {
                 $shell = $_POST['shell'];
@@ -52,13 +60,13 @@ extract($_SESSION);
             }
             if (!empty($_POST['passwd'])) {
                 $passwd = $_POST['passwd'];
-                $username = $username;
-                $pass_string = "echo '" . $username . ":'" . $passwd . "''|sudo chpasswd -c SHA512";
+                // $login = $login;
+                $pass_string = "echo '" . $login . ":'" . $passwd . "''|sudo chpasswd -c SHA512";
                 exec($pass_string, $out, $pcode);
                 if ($pcode == 0) {
-                    infolog("Successfully changed the password of user  '" . $username . "'", "Success");
+                    infolog("Successfully changed the password of user  '" . $login . "'", "Success");
                 } else {
-                    errlog("Error " . $code . ": unable to cahnge password for user '" . $username . "'");
+                    errlog("Error " . $code . ": unable to cahnge password for user '" . $login . "'");
                 }
             }
             if (!empty($_POST['prigroup'])) {
@@ -69,11 +77,11 @@ extract($_SESSION);
             $exec_string = $str_prefix . $exec_string . $str_suffix;
             exec($exec_string, $out, $code);
             if ($code == 0) {
-                infolog("Successfully changed the data of user  '" . $username . "'", "Success");
+                infolog("Successfully changed the data of user  '" . $login . "'", "Success");
                 header("Location:index.php");
                 exit();
             } else {
-                errlog("Error " . $code . ": unable to cahnge data for user '" . $username . "'");
+                errlog("Error " . $code . ": unable to cahnge data for user '" . $login . "'");
             }
         }
         ?>
@@ -87,7 +95,7 @@ extract($_SESSION);
                 <div class="form-group">
                     <label for="login" class="col-sm-2 control-label">Login-Name:</label>
                     <div class="col-sm-10">
-                        <input id="login" type="text" class="form-control" name="login" value="<?= $username ?>">
+                        <input id="login" type="text" class="form-control" name="login" value="<?= $login ?>">
                     </div>
                 </div>
                 <div class="form-group">

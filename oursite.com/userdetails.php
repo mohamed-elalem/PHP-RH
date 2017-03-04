@@ -1,6 +1,6 @@
 <?php
 session_start();
-$username=$_SESSION['username']=$_POST['username'];
+$username=$_SESSION['login']=$_POST['username'];
 $line=explode(":", exec('grep '.$username.' /etc/passwd'));
 //print_r($line);
 $passwd=$line[1];
