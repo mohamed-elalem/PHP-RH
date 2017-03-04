@@ -9,7 +9,7 @@ session_start();
   if(isset($_POST['create_group'])){
   exec("sudo groupadd '$group_name'",$output,$ret);
   if($ret==0){
-          infolog("Successfully added group to the system Success");
+          infolog("Successfully added group to the system Success", "Success");
           header('Location: groups.php');
       }
         else
