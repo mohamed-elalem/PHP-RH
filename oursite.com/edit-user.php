@@ -1,7 +1,7 @@
 <?php
+session_start();
 //include('check_request.php');
 include_once "log2/LogsFunctions.php";
-session_start();
 extract($_SESSION);
 ?>
 <!DOCTYPE html>
